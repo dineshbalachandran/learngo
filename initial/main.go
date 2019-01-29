@@ -11,7 +11,45 @@ import (
 )
 
 func main() {
-	searchissues()
+	intset()
+}
+
+func intset() {
+	var s, t IntSet
+
+	s.Add(100)
+	s.Add(201)
+
+	t.Add(900)
+
+	s.UnionWith(&t)
+
+	fmt.Println(&s)
+	fmt.Println(s.Len())
+
+	s.Remove(201)
+
+	fmt.Println(&s)
+	fmt.Println(s.Len())
+
+	x := s.Copy()
+	fmt.Println(x)
+
+	var y IntSet
+	y.Add(100)
+	y.Add(300)
+
+	s.DifferenceWith(&y)
+	fmt.Println(&s)
+
+	s.SymmetricDifference(&y)
+	fmt.Println(&s)
+
+	fmt.Println(s.Elems())
+
+	s.Clear()
+	fmt.Println(&s)
+	fmt.Println(s.Len())
 }
 
 func searchissues() {
