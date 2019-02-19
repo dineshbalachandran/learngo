@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -8,17 +9,64 @@ import (
 
 	"github.com/dineshbalachandran/github"
 	"github.com/dineshbalachandran/shapes"
+	"github.com/dineshbalachandran/tempconv"
 )
 
+type sortface struct {
+	t []int
+}
+
+func (s sortface) Len() int           { return len(s.t) }
+func (s sortface) Less(i, j int) bool { return s.t[i] < s.t[j] }
+func (s sortface) Swap(i, j int)      { s.t[i], s.t[j] = s.t[j], s.t[i] }
+
 func main() {
-	intset()
+
+	s := sortface{t: []int{1, 1, 3, 1}}
+	fmt.Printf("%t\n", isPalindrome(s))
+}
+
+func testflag() {
+	var temp = tempconv.CelsiusFlag("temp", 20.0, "the temperature")
+	flag.Parse()
+	fmt.Println(*temp)
+}
+
+func topsort() {
+	// prereqs maps computer science courses to their prerequisites.
+	var prereqs = map[string][]string{
+		"algorithms":     {"data structures"},
+		"calculus":       {"linear algebra"},
+		"linear algebra": {"calculus"},
+		"abc":            {"xyz"},
+		"xyz":            {"abc"},
+		"compilers": {
+			"data structures",
+			"formal languages",
+			"computer organization",
+		},
+		"data structures":       {"discrete math"},
+		"databases":             {"data structures"},
+		"discrete math":         {"intro to programming"},
+		"formal languages":      {"discrete math"},
+		"networks":              {"operating systems"},
+		"operating systems":     {"data structures", "computer organization"},
+		"programming languages": {"data structures", "computer organization"},
+	}
+
+	for i, course := range topoSort(prereqs) {
+		fmt.Printf("%d:\t%s\n", i+1, course)
+	}
+}
+
+func bar(s string) string {
+	return "bar"
 }
 
 func intset() {
 	var s, t IntSet
 
-	s.Add(100)
-	s.Add(201)
+	s.AddAll(100, 201)
 
 	t.Add(900)
 
